@@ -25,7 +25,10 @@ class DumboProtocol(irc.IRCClient):
                 with open('quotes.yml') as f:
                     quotes = yaml.load(f.read())
                     QUOTES = quotes['quotes']
-                self._send_message(random.choice(QUOTES), channel)
+                if channel == self.nickname:
+                    self._send_message(random.choice(QUOTES), nick)
+                else:
+                    self._send_message(random.choice(QUOTES), channel)
                 print("Command from " + nick + ": " + message.strip())
             elif message.startswith('.sendline'):
                 if nick == "Sweepyoface":
