@@ -17,3 +17,5 @@ commands:
 ops:
   - 'Sweepyoface'
   - 'LaxWasHere'
+blocked:
+  - 'qball@SpigotMC-a31605.qballs.kelp.in'

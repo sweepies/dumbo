@@ -8,7 +8,7 @@ from twisted.application import internet, service
 
 with open('config.yml') as f:
     config = yaml.load(f.read())
-HOST, PORT, MODES, NICKNAME, CHANNELS, COMMANDS, OPS = config['host'], config['port'], config['modes'], config['nickname'], config['channels'], config['commands'], config['ops']
+HOST, PORT, MODES, NICKNAME, CHANNELS, COMMANDS, OPS, BLOCKED = config['host'], config['port'], config['modes'], config['nickname'], config['channels'], config['commands'], config['ops'], config['blocked']
 
 class DumboProtocol(irc.IRCClient):
     nickname = NICKNAME
@@ -25,25 +25,27 @@ class DumboProtocol(irc.IRCClient):
 
             # Quote command
             if message.replace('.', '', 1).strip().lower().split()[0] in COMMANDS['randomquote']:
-                with open('quotes.yml') as f:
-                    quotes = yaml.load(f.read())
-                    QUOTES = quotes['quotes']
-                # If it's a PM the channel name is their nickname
-                if channel == self.nickname:
-                    self._send_message(random.choice(QUOTES), nick)
-                else:
-                    self._send_message(random.choice(QUOTES), channel)
-                self._log_command(nick, message.strip())
+                if host not in BLOCKED:
+                    with open('quotes.yml') as f:
+                      quotes = yaml.load(f.read())
+                      QUOTES = quotes['quotes']
+                    # If it's a PM the channel name is their nickname
+                    if channel == self.nickname:
+                        self._send_message(random.choice(QUOTES), nick)
+                    else:
+                        self._send_message(random.choice(QUOTES), channel)
+                    self._log_command(user, channel, message.strip())
+
 
             # Sendline command
             elif message.replace('.', '', 1).strip().lower().split()[0] in COMMANDS['sendline']:
                 if nick in OPS:
                     self.sendLine(message.replace(message.replace('.', '', 1).strip().lower().split()[0], '').strip())
-                    self._log_command(nick, message.strip())
+                    self._log_command(user, channel, message.strip())
 
 
-    def _log_command(self, sender, msg):
-        log.msg("Command from " + sender + ": " + msg)
+    def _log_command(self, sender, chan, msg):
+        log.msg("Command from " + sender + " in " + chan + ": " + msg)
 
     def _send_message(self, msg, target):
         self.msg(target, msg)
