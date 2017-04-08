@@ -10,8 +10,6 @@ commands:
     - 'dum'
   sendline:
     - 'sendline'
-  addquote:
-    - 'addquote'
 ops:
   - 'Sweepyoface'
   - 'LaxWasHere'
