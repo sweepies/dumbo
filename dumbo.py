@@ -22,15 +22,15 @@ class DumboProtocol(irc.IRCClient):
         nick, _, host = user.partition('!')
         if message.strip().startswith('.'):
             if message.strip() == '.quote':
-            	with open('quotes.yml') as f:
-					quotes = yaml.load(f.read())
-					QUOTES = quotes['quotes']
+                with open('quotes.yml') as f:
+                    quotes = yaml.load(f.read())
+                    QUOTES = quotes['quotes']
                 self._send_message(random.choice(QUOTES), channel)
                 print("Command from " + nick + ": " + message.strip())
             elif message.startswith('.sendline'):
-            	if nick == "Sweepyoface":
-            		self.sendLine(message.replace('.sendline', '').strip())
-        		print("Command from " + nick + ": " + message.strip())
+                if nick == "Sweepyoface":
+                    self.sendLine(message.replace('.sendline', '').strip())
+                print("Command from " + nick + ": " + message.strip())
 
     def _send_message(self, msg, target):
         self.msg(target, msg)
