@@ -24,7 +24,7 @@ class DumboProtocol(irc.IRCClient):
         if message.strip().startswith('.'):
 
             # Quote command
-            if message.replace('.', '').strip().lower().split()[0] in COMMANDS['randomquote']:
+            if message.replace('.', '', 1).strip().lower().split()[0] in COMMANDS['randomquote']:
                 with open('quotes.yml') as f:
                     quotes = yaml.load(f.read())
                     QUOTES = quotes['quotes']
@@ -36,9 +36,9 @@ class DumboProtocol(irc.IRCClient):
                 self._log_command(nick, message.strip())
 
             # Sendline command
-            elif message.replace('.', '').strip().lower().split()[0] in COMMANDS['sendline']:
+            elif message.replace('.', '', 1).strip().lower().split()[0] in COMMANDS['sendline']:
                 if nick in OPS:
-                    self.sendLine(message.replace(message.replace('.', '').strip().lower().split()[0], '').strip())
+                    self.sendLine(message.replace(message.replace('.', '', 1).strip().lower().split()[0], '').strip())
                     self._log_command(nick, message.strip())
 
 

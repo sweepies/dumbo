@@ -4,7 +4,8 @@ modes: B
 nickname: Dumbo
 channels:
   - '#hell'
-#  - '#paper'
+  - '#paper'
+  - '#spigot'
 commands:
   randomquote:
     - 'quote'
