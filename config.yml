@@ -1,3 +1,17 @@
 host: irc.spi.gt
 port: 6697
 modes: B
+nickname: Dumbo
+commands:
+  randomquote:
+    - 'quote'
+    - 'dumbo'
+    - 'dumball'
+    - 'dum'
+  sendline:
+    - 'sendline'
+  addquote:
+    - 'addquote'
+ops:
+  - 'Sweepyoface'
+  - 'LaxWasHere'

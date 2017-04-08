@@ -8,11 +8,11 @@ from twisted.application import internet, service
 
 with open('config.yml') as f:
     config = yaml.load(f.read())
-HOST, PORT, MODES = config['host'], config['port'], config['modes']
+HOST, PORT, MODES, NICKNAME, COMMANDS, OPS = config['host'], config['port'], config['modes'], config['nickname'], config['commands'], config['ops']
 
 class DumboProtocol(irc.IRCClient):
-    nickname = 'Dumbo'
-    realname = 'Dumbo'
+    nickname = NICKNAME
+    realname = NICKNAME
 
     def signedOn(self):
         for channel in self.factory.channels:
@@ -22,19 +22,28 @@ class DumboProtocol(irc.IRCClient):
     def privmsg(self, user, channel, message):
         nick, _, host = user.partition('!')
         if message.strip().startswith('.'):
-            if message.strip() == '.dumball' or message.strip() == '.dumbo':
+
+            # Quote command
+            if message.replace('.', '').strip().lower().split()[0] in COMMANDS['randomquote']:
                 with open('quotes.yml') as f:
                     quotes = yaml.load(f.read())
                     QUOTES = quotes['quotes']
+                # If it's a PM the channel name is their nickname
                 if channel == self.nickname:
                     self._send_message(random.choice(QUOTES), nick)
                 else:
                     self._send_message(random.choice(QUOTES), channel)
-                print("Command from " + nick + ": " + message.strip())
-            elif message.startswith('.sendline'):
-                if nick == "Sweepyoface":
-                    self.sendLine(message.replace('.sendline', '').strip())
-                print("Command from " + nick + ": " + message.strip())
+                self._log_command(nick, message.strip())
+
+            # Sendline command
+            elif message.replace('.', '').strip().lower().split()[0] in COMMANDS['sendline']:
+                if nick in OPS:
+                    self.sendLine(message.replace(message.replace('.', '').strip().lower().split()[0], '').strip())
+                    self._log_command(nick, message.strip())
+
+
+    def _log_command(self, sender, msg):
+        log.msg("Command from " + sender + ": " + msg)
 
     def _send_message(self, msg, target):
         self.msg(target, msg)
