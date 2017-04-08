@@ -40,7 +40,7 @@ class DumboProtocol(irc.IRCClient):
             # Sendline command
             elif message.replace('.', '', 1).strip().lower().split()[0] in COMMANDS['sendline']:
                 if nick in OPS:
-                    self.sendLine(message.replace("." + message.replace('.', '', 1).strip().lower().split()[0], '').strip())
+                    self.sendLine(message.replace(message.strip().lower().split()[0], '').strip())
                     self._log_command(user, channel, message.strip())
 
 
