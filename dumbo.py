@@ -8,7 +8,7 @@ from twisted.application import internet, service
 
 with open('config.yml') as f:
     config = yaml.load(f.read())
-HOST, PORT = config['host'], config['port']
+HOST, PORT, MODES = config['host'], config['port'], config['modes']
 
 class DumboProtocol(irc.IRCClient):
     nickname = 'Dumbo'
@@ -17,11 +17,12 @@ class DumboProtocol(irc.IRCClient):
     def signedOn(self):
         for channel in self.factory.channels:
             self.join(channel)
+            self.mode(self.nickname, '+', MODES)
 
     def privmsg(self, user, channel, message):
         nick, _, host = user.partition('!')
         if message.strip().startswith('.'):
-            if message.strip() == '.quote':
+            if message.strip() == '.dumball':
                 with open('quotes.yml') as f:
                     quotes = yaml.load(f.read())
                     QUOTES = quotes['quotes']
