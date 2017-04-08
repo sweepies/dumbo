@@ -8,7 +8,7 @@ from twisted.application import internet, service
 
 with open('config.yml') as f:
     config = yaml.load(f.read())
-HOST, PORT, MODES, NICKNAME, COMMANDS, OPS = config['host'], config['port'], config['modes'], config['nickname'], config['commands'], config['ops']
+HOST, PORT, MODES, NICKNAME, CHANNELS, COMMANDS, OPS = config['host'], config['port'], config['modes'], config['nickname'], config['channels'], config['commands'], config['ops']
 
 class DumboProtocol(irc.IRCClient):
     nickname = NICKNAME
@@ -53,8 +53,7 @@ class DumboProtocol(irc.IRCClient):
 
 class DumboFactory(protocol.ReconnectingClientFactory):
     protocol = DumboProtocol
-    #channels = ['#paper']
-    channels = ['#hell']
+    channels = CHANNELS
 
 if __name__ == '__main__':
     reactor.connectSSL(HOST, PORT, DumboFactory(), ssl.ClientContextFactory())
