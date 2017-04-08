@@ -2,6 +2,9 @@ host: irc.spi.gt
 port: 6697
 modes: B
 nickname: Dumbo
+channels:
+  - '#hell'
+#  - '#paper'
 commands:
   randomquote:
     - 'quote'
