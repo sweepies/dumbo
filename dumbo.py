@@ -22,7 +22,7 @@ class DumboProtocol(irc.IRCClient):
     def privmsg(self, user, channel, message):
         nick, _, host = user.partition('!')
         if message.strip().startswith('.'):
-            if message.strip() == '.dumball':
+            if message.strip() == '.dumball' or message.strip() == '.dumbo':
                 with open('quotes.yml') as f:
                     quotes = yaml.load(f.read())
                     QUOTES = quotes['quotes']
