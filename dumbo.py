@@ -33,7 +33,7 @@ class DumboProtocol(irc.IRCClient):
                     if channel == self.nickname:
                         self._send_message(random.choice(QUOTES), nick)
                     else:
-                        self._send_message(random.choice(QUOTES), channel)
+                        self._send_message(random.choice(QUOTES).replace("Qball", "Qbal" + u"\u200B" + "l"), channel) #  Zero width space to prevent pinging
                     self._log_command(user, channel, message.strip())
 
 
