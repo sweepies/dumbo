@@ -43,6 +43,15 @@ class DumboProtocol(irc.IRCClient):
                     self.sendLine(message.replace(message.strip().lower().split()[0], '').strip())
                     self._log_command(user, channel, message.strip())
 
+            # Tacos command
+            if message.replace('.', '', 1).strip().lower().split()[0] in COMMANDS['tacos']:
+                if host not in BLOCKED:
+                    # If it's a PM the channel name is their nickname
+                    if channel == self.nickname:
+                        self._send_message("🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮", nick)
+                    else:
+                        self._send_message("🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮🌮", channel)
+                    self._log_command(user, channel, message.strip())
 
     def _log_command(self, sender, chan, msg):
         log.msg("Command from " + sender + " in " + chan + ": " + msg)
