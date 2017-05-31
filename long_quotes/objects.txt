@@ -1,5 +1,0 @@
-<Qball> phoenix616: but I like my objects
-<electronicboy> your objects are useless and create additional operations where not needed
-<Qball> but I doubt they are causing lag
-<electronicboy> you act like you care about performance and then totally screw that up by creating redundant objects
-<electronicboy> Premature optimization is always bad, not writing shit code in the first place isn't
