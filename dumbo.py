@@ -42,7 +42,7 @@ class DumboProtocol(irc.IRCClient):
 			if message.replace('.', '', 1).strip().lower().split()[0] in COMMANDS['randomquote']:
 				if host not in BLOCKED:
 					with open('quotes.json') as f:
-						quotes = json.load(f.read())
+						quotes = json.loads(f.read())
 						QUOTES = quotes['quotes']
 					# If it's a PM the channel name is their nickname
 					if channel == self.nickname:
